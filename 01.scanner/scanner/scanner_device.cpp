@@ -30,15 +30,17 @@ bool scanner_device::scanner_open()
     this->scanner.scanner_fd = open(this->scanner.scanner_path.toStdString().c_str(), O_RDONLY | O_NONBLOCK);
     if (this->scanner.scanner_fd < 0)
     {
-        qDebug() << "device open failed: " << this->scanner.scanner_path.toStdString().c_str()<< Qt::endl;
+        qDebug() << "device open failed:" << this->scanner.scanner_path;
         return false;
     }
-    else
-    {
-        qDebug() << ( this->scanner.scanner_type ? "RFID" : "Barcode" ) << "device opened: " << this->scanner.scanner_path.toStdString().c_str();
-        this->scanner.scanner_notifier = new QSocketNotifier(this->scanner.scanner_fd ,QSocketNotifier::Read,this);
-        connect(this->scanner.scanner_notifier,&QSocketNotifier::activated, this, &scanner_device::scanner_handler_data);
-    }
+
+    qDebug() << (this->scanner.scanner_type == DEVICE_RFID ? "RFID" : "Barcode")
+             << "device opened:" << this->scanner.scanner_path;
+
+    this->scanner.scanner_notifier = new QSocketNotifier(this->scanner.scanner_fd, QSocketNotifier::Read, this);
+    connect(this->scanner.scanner_notifier, &QSocketNotifier::activated,
+            this, &scanner_device::scanner_handler_data);
+
     return true;
 }
 
@@ -112,8 +114,8 @@ void scanner_device::scanner_process_keycode_enter()
     {
         qDebug() <<"scan complete ";
         qDebug() << "data: " << this->scanner.scanner_buffer.scanner_code_buffer;
+        emit scanner_received_data(this->scanner.scanner_buffer.scanner_code_buffer);
         scanner_reset_code_buffer(this->scanner.scanner_buffer.scanner_code_buffer, sizeof(this->scanner.scanner_buffer.scanner_code_buffer),&(this->scanner.scanner_buffer.scanner_code_index));
-        emit scanner_received_data();
     }
     else
     {

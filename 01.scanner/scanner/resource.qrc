@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/new/prefix">
+        <file>image/Happy_lunch.png</file>
+        <file>image/nguyen-thanh-phat-org.jpg</file>
+        <file>image/happy_smart_lunch_org.jpg</file>
+        <file>image/id_invalid.jpg</file>
+        <file>image/id_invalid_new.jpg</file>
+        <file>image/id_invalid_n.jpg</file>
+        <file>image/id_invalid_nn.jpg</file>
+        <file>image/unknown.png</file>
+        <file>image/unknown_user.png</file>
+        <file>image/forgot_order_food.jpg</file>
+    </qresource>
+</RCC>

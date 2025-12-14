@@ -45,7 +45,7 @@ public:
     bool scanner_open();
     void scanner_close();
 signals:
-    void scanner_received_data();
+    void scanner_received_data(QString data);
 private slots:
     void scanner_handler_data();
 
